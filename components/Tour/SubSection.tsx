@@ -15,12 +15,11 @@ export const SubSection = ({
   children,
   className,
   title,
-  defaultOpen = true,
+  defaultOpen = false,
 }: SubSectionProps): React.ReactElement => {
   return (
     <section className={twMerge("space-y-4 my-2", className)}>
-      <Disclosure defaultOpen={defaultOpen}>
-        <DisclosureButton>{title}</DisclosureButton>
+      <Disclosure defaultOpen={defaultOpen} title={title}>
         <DisclosurePanel>{children}</DisclosurePanel>
       </Disclosure>
     </section>

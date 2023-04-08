@@ -34,7 +34,9 @@ export const CheerioCrawler = ({}: CheerioCrawlerProps) => {
   return (
     <div className="space-y-4" ref={parent}>
       <WebsiteInput value={url} onChange={handleUrlChange} />
-      {!isValidUrl(url) && url && <p className="text-red-500">Invalid URL</p>}
+      {!isValidUrl(url) && url && (
+        <span className="inline-block my-2 text-red-500">Invalid URL</span>
+      )}
       <Button
         onClick={() => invalidateData(url)}
         disabled={isLoading}

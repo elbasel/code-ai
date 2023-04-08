@@ -5,7 +5,6 @@ import { ThemeContext } from "@components/Theme";
 import { type Themes } from "@appTypes/Themes";
 
 const themes: Themes = {
-  // "px-4", "pt-4", "pb-2", "text-sm"
   common: ["space-y-1 my-2"].join(" "),
   light: ["text-gray-500"].join(" "),
   dark: [""].join(" "),

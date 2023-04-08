@@ -19,6 +19,7 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"],
+      "@lib/*": ["lib/*"],
       "@appTypes/*": ["types/*"]
     }
   },

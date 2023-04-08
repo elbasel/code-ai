@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { Disclosure as HeadlessDisclosure } from "@headlessui/react";
 import { twMerge } from "tailwind-merge";
-import { BsChevronUp } from "react-icons/bs";
+import { BsChevronUp, BsChevronDown } from "react-icons/bs";
 import { ThemeContext } from "@components/Theme";
 import { type Themes } from "@appTypes/Themes";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const themes: Themes = {
   common: [
@@ -32,23 +33,25 @@ const themes: Themes = {
 type DisclosureButtonProps = {
   children?: React.ReactNode;
   className?: string;
-  show?: boolean;
+  open?: boolean;
 };
 
 export const DisclosureButton = ({
   children,
   className,
-  show,
+  open,
 }: DisclosureButtonProps): React.ReactElement => {
   const { theme } = useContext(ThemeContext);
+  const [parent] = useAutoAnimate({});
+
   return (
     <HeadlessDisclosure.Button
       className={twMerge(themes.common, themes[theme], className)}
+      ref={parent}
     >
       <span>{children}</span>
-      <BsChevronUp
-        className={twMerge("h-5 w-5", show && "rotate-180 transform")}
-      />
+      {open && <BsChevronUp className="w-5 h-5" />}
+      {!open && <BsChevronDown className="w-5 h-5" />}
     </HeadlessDisclosure.Button>
   );
 };

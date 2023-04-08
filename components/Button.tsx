@@ -20,13 +20,16 @@ export const Button = ({
 
   return (
     <button
-      // ref={parent}
+      ref={parent}
       onClick={onClick}
       disabled={disabled}
       type="button"
-      className={twMerge("bg-slate-600 rounded-lg py-2 px-4 block", className)}
+      className={twMerge(
+        "bg-blue-600 disabled:bg-black disabled:cursor-not-allowed rounded-lg py-2 px-4 items-center gap-2 flex ",
+        className
+      )}
     >
-      {/* {disabled && <Spinner/>} */}
+      {disabled && <Spinner className="text-white" />}
       {children}
     </button>
   );
