@@ -1,65 +1,54 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isRelativeURL } from "util/isRelativeURL";
 import * as cheerio from "cheerio";
-type Data = {
-  links: string[];
-};
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  const allLinks = new Set<string>();
-  const relativeLinks = new Set<string>();
-  const uniqueRelativeLinks = new Set<string>();
+  const allHrefs = new Set<string>();
+  const relativeHrefs = new Set<string>();
+  const relativePathNames = new Set<string>();
 
   try {
-    let url: string = req.query?.url as string;
+    const requestUrl = req.query?.url as string;
 
-    if (!url) {
+    if (!requestUrl) {
       res.status(400).json({ error: "No URL provided" });
     }
 
-    const urlToFetch = url.startsWith("https") ? url : `https://${url}`;
-    const response = await fetch(urlToFetch);
+    const parsedRequestUrl = requestUrl.startsWith("https")
+      ? requestUrl
+      : `https://${requestUrl}`;
+
+    const parsedRequestUrlObject = new URL(parsedRequestUrl);
+
+    const response = await fetch(parsedRequestUrl);
     const html = await response.text();
+
     const $ = cheerio.load(html);
+
+    // get the links from the page
     $("a").each((i, el) => {
-      let href = $(el).attr("href");
-      // console.log("processing ", href);
-      if (href) {
-        allLinks.add(href);
-        if (isRelativeURL(href)) relativeLinks.add(href);
+      const crawledHrefString = $(el).attr("href") || "";
+      const crawledUrlObject = new URL(crawledHrefString, parsedRequestUrl);
+      console.log(new Date(), ": found link", crawledUrlObject.href);
+
+      // relative links & pathnames
+      if (crawledUrlObject.hostname === parsedRequestUrlObject.hostname) {
+        relativeHrefs.add(crawledUrlObject.href);
+        const pathName = crawledUrlObject.pathname.split("/")[1];
+        if (pathName) relativePathNames.add(pathName);
       }
-    });
 
-    Array.from(relativeLinks).forEach((link) => {
-      link = link.startsWith("https") ? link : link.replace("https://", "");
-      link = link.startsWith("www") ? link : link.replace("www.", "");
-
-      url = url.startsWith("https") ? url : url.replace("https://", "");
-      url = url.startsWith("www") ? url : url.replace("www.", "");
-
-      let urlParts = url.split("/");
-      urlParts = urlParts.filter((part) => part !== "" && part != null);
-      const urlFirstPart = urlParts[1];
-
-      let linkParts = link.split("/");
-      linkParts = linkParts.filter((part) => part !== "" && part != null);
-
-      const linkFirstPart = linkParts[1];
-
-      console.log("linkParts", linkParts);
-      console.log("urlParts", urlParts);
-      uniqueRelativeLinks.add(linkFirstPart);
+      allHrefs.add(crawledUrlObject.href);
     });
 
     res.status(200).json({
-      uniqueRelativeLinks: Array.from(uniqueRelativeLinks),
-      relativeLinks: Array.from(relativeLinks),
-      allLinks: Array.from(allLinks),
+      relativePathNames: Array.from(relativePathNames),
+      relativeHrefs: Array.from(relativeHrefs),
+      allHrefs: Array.from(allHrefs),
     });
   } catch (error: any) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error });
   }
 }

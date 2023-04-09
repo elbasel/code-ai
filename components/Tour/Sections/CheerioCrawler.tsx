@@ -4,10 +4,9 @@ import useSWR from "swr";
 import JSONPretty from "react-json-pretty";
 import "react-json-pretty/themes/monikai.css";
 import { Button } from "@components/Button";
-import { isValidURL } from "util/isValidURL";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import useDebounce from "@hooks/useDebounce";
-import { invalidateData } from "util/invalidateData";
+import toast from "react-hot-toast";
 
 type CheerioCrawlerProps = {};
 
@@ -16,20 +15,16 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export const CheerioCrawler = ({}: CheerioCrawlerProps) => {
   // user inputs state
   const [url, setURL] = useState<string>("");
-  const debouncedURL = useDebounce<string>(url, 500);
+  const debouncedURL = useDebounce<string>(url, 1000);
 
   // api state
-  const { data, error, isLoading } = useSWR(
-    () =>
-      debouncedURL?.length > 0
-        ? `/api/get-links-on-webpage?url=${debouncedURL}`
-        : null,
+  const { data, error, isLoading, mutate } = useSWR(
+    `/api/get-links-on-webpage?url=${debouncedURL}`,
     fetcher,
     {
       revalidateOnFocus: false,
     }
   );
-  const debouncedLoading = useDebounce<boolean>(isLoading, 500);
 
   // TODO make an <AutoAnimate> component
   const [parent] = useAutoAnimate({});
@@ -44,16 +39,15 @@ export const CheerioCrawler = ({}: CheerioCrawlerProps) => {
       <WebsiteInput value={url} onChange={handleUrlChange} />
       <Button
         onClick={() => {
-          invalidateData(`/api/get-links-on-webpage?url=${debouncedURL}`);
-          setURL("");
+          mutate();
+          toast.success("Data refreshed");
         }}
-        disabled={debouncedLoading}
-        className=""
+        disabled={isLoading}
       >
-        {debouncedLoading && <span>Getting links</span>}
-        {!debouncedLoading && <span>Get Links</span>}
+        {isLoading && <span>Getting links</span>}
+        {!isLoading && <span>Refresh data</span>}
       </Button>
-      <JSONPretty id="cheerio-response" data={data} />
+      <JSONPretty id="cheerio-response" data={error || data} />
     </div>
   );
 };

@@ -22,5 +22,9 @@
         "globals.css": false,
         "tsconfig.json": false
     },
-    "explorerExclude.backup": {}
+    "explorerExclude.backup": {},
+    "cSpell.words": [
+        "formkit",
+        "Hrefs"
+    ]
 }

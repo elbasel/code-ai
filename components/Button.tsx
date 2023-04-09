@@ -25,7 +25,7 @@ export const Button = ({
       disabled={disabled}
       type="button"
       className={twMerge(
-        "bg-blue-600 disabled:bg-black disabled:cursor-not-allowed rounded-lg py-2 px-4 items-center gap-2 flex ",
+        "bg-blue-600 disabled:bg-black active:scale-95 disabled:cursor-not-allowed rounded-lg py-2 px-4 items-center gap-2 flex ",
         className
       )}
     >

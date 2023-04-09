@@ -37,6 +37,9 @@ export const Code = ({
 
   const handleOnCopy = () => {
     setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
     toast.success("Copied to clipboard!");
   };
 

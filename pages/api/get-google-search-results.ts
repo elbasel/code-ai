@@ -2,37 +2,44 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { isValidGoogleSearchResultURL } from "util/isValidGoogleSearchResultURL";
 import * as cheerio from "cheerio";
 
+type googleSearchResult = {
+  title: string;
+  href: string;
+};
+
 type ServerResponse = {
-  allLinks: string[];
-  validLinks: string[];
+  allHrefs: string[];
+  googleSearchResults: googleSearchResult[];
 };
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<any | { error: string }>
+  res: NextApiResponse<ServerResponse>
 ) {
-  const allLinks = new Set<string>();
-  const validLinks = new Set<string>();
+  const allHrefs = new Set<string>();
+  const googleSearchResults: googleSearchResult[] = [];
 
-  const response = await fetch(
-    `https://www.google.com/search?q=${req.query.queryString}`
-  );
+  const googleSearchHref = `https://www.google.com/search?q=${req.query.queryString}&hl=en`;
+
+  const response = await fetch(googleSearchHref);
+
   const html = await response.text();
   const $ = cheerio.load(html);
 
   $("a").each((i, el) => {
     let href = $(el).attr("href");
     if (href) {
-      allLinks.add(href);
+      allHrefs.add(href);
 
       if (isValidGoogleSearchResultURL(href)) {
-        validLinks.add(href.replace("/url?q=", ""));
+        const title = $(el).text() || "<NO TITLE>";
+        googleSearchResults.push({ title, href: href.replace("/url?q=", "") });
       }
     }
   });
 
   res.status(200).json({
-    validLinks: Array.from(validLinks),
-    allLinks: Array.from(allLinks),
+    googleSearchResults,
+    allHrefs: Array.from(allHrefs),
   });
 }

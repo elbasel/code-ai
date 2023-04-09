@@ -5,7 +5,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import useDebounce from "@hooks/useDebounce";
 import JSONPretty from "react-json-pretty";
 import useSWR from "swr";
-import { invalidateData } from "util/invalidateData";
+import toast from "react-hot-toast";
 
 type GoogleScraperProps = {};
 
@@ -14,20 +14,17 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export const GoogleScraper = ({}: GoogleScraperProps): React.ReactElement => {
   // user inputs state
   const [queryString, setQueryString] = useState("");
-  const debouncedQueryString = useDebounce<string>(queryString, 500);
+  const debouncedQueryString = useDebounce<string>(queryString, 1500);
 
   // api state
-  const { data, error, isLoading } = useSWR(
-    () =>
-      debouncedQueryString?.length > 0
-        ? `/api/get-google-search-results?queryString=${debouncedQueryString}`
-        : null,
+  const { data, error, isLoading, mutate } = useSWR(
+    `/api/get-google-search-results?queryString=${debouncedQueryString}`,
     fetcher,
     {
       revalidateOnFocus: false,
     }
   );
-  const debouncedLoading = useDebounce<boolean>(isLoading, 500);
+  // const debouncedLoading = useDebounce<boolean>(isLoading, 1500);
 
   // TODO make an <AutoAnimate> component
   const [parent] = useAutoAnimate({});
@@ -45,16 +42,15 @@ export const GoogleScraper = ({}: GoogleScraperProps): React.ReactElement => {
         placeholder="Google search"
       />
       <Button
-        onClick={() =>
-          invalidateData(
-            `./api/get-google-search-results&queryString=${debouncedQueryString}`
-          )
-        }
-        disabled={debouncedLoading}
+        onClick={() => {
+          mutate();
+          toast.success("Data refreshed");
+        }}
+        disabled={isLoading}
         className=""
       >
-        {debouncedLoading && <span>Searching google</span>}
-        {!debouncedLoading && <span>Search google</span>}
+        {isLoading && <span>Searching google</span>}
+        {!isLoading && <span>Refresh Data</span>}
       </Button>
       {debouncedQueryString && (
         <JSONPretty id="cheerio-response" data={error || data} />
