@@ -17,11 +17,13 @@ export const SearchInput = ({
 }: SearchInputProps) => {
   return (
     <div className={twMerge("relative", className)}>
-      <BsSearch className="absolute top-0 bottom-0 w-6 h-6 my-auto text-white left-3" />
+      <BsSearch className="absolute top-0 bottom-0 w-6 h-6 my-auto left-3" />
       <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         type="text"
         placeholder={placeholder}
-        className="w-full py-3 pl-12 pr-4 text-white rounded-md bg-slate-800 focus:bg-black outline-blue-900"
+        className="w-full py-3 pl-12 pr-4 rounded-md bg-slate-800 focus:bg-black outline-blue-900"
       />
     </div>
   );

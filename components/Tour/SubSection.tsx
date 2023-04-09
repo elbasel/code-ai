@@ -18,9 +18,14 @@ export const SubSection = ({
   defaultOpen = false,
 }: SubSectionProps): React.ReactElement => {
   return (
-    <section className={twMerge("space-y-4 my-2", className)}>
+    <section
+      className={twMerge(
+        "my-2 flex max-w-full overflow-x-hidden text-ellipsis whitespace-nowrap flex-wrap items-center gap-1 text-sm hover:bg-black text-slate-400 hover:text-white",
+        className
+      )}
+    >
       <Disclosure defaultOpen={defaultOpen} title={title}>
-        <DisclosurePanel>{children}</DisclosurePanel>
+        <DisclosurePanel className="px-4">{children}</DisclosurePanel>
       </Disclosure>
     </section>
   );

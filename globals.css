@@ -9,7 +9,3 @@ body {
 .__json-pretty__ {
   @apply py-2 px-2;
 }
-
-.tour-paragraph {
-  @apply flex flex-wrap items-center gap-1 py-2 px-4 text-sm hover:bg-black text-slate-500 hover:text-white;
-}

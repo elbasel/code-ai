@@ -19,6 +19,7 @@ export const AddToDatabase = ({}: AddToDatabaseProps): React.ReactElement => {
 
   const [parent] = useAutoAnimate({});
 
+  // event handlers
   const handleInputStringChange = (value: string) => {
     setInputString(value);
   };

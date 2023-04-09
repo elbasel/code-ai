@@ -17,6 +17,7 @@
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "18.0.11",
     "autoprefixer": "10.4.14",
+    "cheerio": "1.0.0-rc.12",
     "crawlee": "^3.3.0",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
