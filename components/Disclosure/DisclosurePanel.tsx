@@ -2,10 +2,12 @@ import React, { useContext } from "react";
 import { Disclosure as HeadlessDisclosure } from "@headlessui/react";
 import { twMerge } from "tailwind-merge";
 import { ThemeContext } from "@components/Theme";
-import { type Themes } from "@appTypes/Themes";
+import { type ThemesType } from "@appTypes/ThemesType";
 
-const themes: Themes = {
-  common: ["space-y-4"].join(" "),
+const themes: ThemesType = {
+  common: ["disclosurePanel", "space-y-4", "w-full", "overflow-hidden"].join(
+    " "
+  ),
   light: ["text-gray-500"].join(" "),
   dark: [""].join(" "),
 };

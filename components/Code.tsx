@@ -1,4 +1,4 @@
-import { Themes } from "@appTypes/Themes";
+import { ThemesType } from "@appTypes/ThemesType";
 import useIsClient from "@hooks/useClient";
 import React, { useContext, useRef, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { twMerge } from "tailwind-merge";
 import { ThemeContext } from "./Theme";
 
-const buttonThemes: Themes = {
+const buttonStyles: ThemesType = {
   common: ["px-2", "py-1", "rounded-lg"].join(" "),
   dark: ["bg-black", "text-white", "hover:bg-white", "hover:text-black"].join(
     " "
@@ -16,8 +16,14 @@ const buttonThemes: Themes = {
   },
 };
 
-const codeThemes: Themes = {
-  common: ["flex", "items-center", "gap-2"].join(" "),
+const codeStyles: ThemesType = {
+  common: [
+    "flex",
+    "items-center",
+    "gap-2",
+    "whitespace-break-spaces",
+    "flex-wrap",
+  ].join(" "),
   dark: ["hover:text-green-800"].join(" "),
 };
 
@@ -53,17 +59,21 @@ export const Code = ({
   if (!isClient) return <></>;
 
   return (
-    <code className={twMerge(codeThemes.common, codeThemes[theme], className)}>
-      <span onMouseEnter={handleOnTextMouseEnter} ref={textRef}>
+    <code className={twMerge(codeStyles.common, codeStyles[theme], className)}>
+      <span
+        className="break-all whitespace-break-spaces"
+        onMouseEnter={handleOnTextMouseEnter}
+        ref={textRef}
+      >
         {children}
       </span>
       <CopyToClipboard text={children} onCopy={handleOnCopy}>
         <button
           type="button"
           className={twMerge(
-            buttonThemes.common,
-            buttonThemes[theme],
-            copied && buttonThemes.copied[theme],
+            buttonStyles.common,
+            buttonStyles[theme],
+            copied && buttonStyles.copied[theme],
             className
           )}
         >

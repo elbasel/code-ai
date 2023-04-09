@@ -1,13 +1,22 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as cheerio from "cheerio";
 
+type ServerResponse = {
+  relativePathNames?: string[];
+  allRelativeHrefs?: string[];
+  allHrefs?: string[];
+  samePathName?: string[];
+  error?: string;
+};
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<any>
+  res: NextApiResponse<ServerResponse>
 ) {
   const allHrefs = new Set<string>();
-  const relativeHrefs = new Set<string>();
+  const allRelativeHrefs = new Set<string>();
   const relativePathNames = new Set<string>();
+  const samePathName = new Set<string>();
 
   try {
     const requestUrl = req.query?.url as string;
@@ -16,11 +25,14 @@ export default async function handler(
       res.status(400).json({ error: "No URL provided" });
     }
 
+    // TODO make this into a util function
     const parsedRequestUrl = requestUrl.startsWith("https")
       ? requestUrl
       : `https://${requestUrl}`;
 
     const parsedRequestUrlObject = new URL(parsedRequestUrl);
+    const parsedRequestUrlPathName =
+      parsedRequestUrlObject.pathname.split("/")[1];
 
     const response = await fetch(parsedRequestUrl);
     const html = await response.text();
@@ -35,17 +47,20 @@ export default async function handler(
 
       // relative links & pathnames
       if (crawledUrlObject.hostname === parsedRequestUrlObject.hostname) {
-        relativeHrefs.add(crawledUrlObject.href);
+        allRelativeHrefs.add(crawledUrlObject.href);
         const pathName = crawledUrlObject.pathname.split("/")[1];
         if (pathName) relativePathNames.add(pathName);
+        if (pathName === parsedRequestUrlPathName)
+          samePathName.add(crawledUrlObject.href);
       }
 
       allHrefs.add(crawledUrlObject.href);
     });
 
     res.status(200).json({
+      samePathName: Array.from(samePathName),
       relativePathNames: Array.from(relativePathNames),
-      relativeHrefs: Array.from(relativeHrefs),
+      allRelativeHrefs: Array.from(allRelativeHrefs),
       allHrefs: Array.from(allHrefs),
     });
   } catch (error: any) {

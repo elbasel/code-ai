@@ -3,10 +3,10 @@ import { Disclosure as HeadlessDisclosure } from "@headlessui/react";
 import { twMerge } from "tailwind-merge";
 import { BsChevronUp, BsChevronDown } from "react-icons/bs";
 import { ThemeContext } from "@components/Theme";
-import { type Themes } from "@appTypes/Themes";
+import { type ThemesType } from "@appTypes/ThemesType";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-const themes: Themes = {
+const themes: ThemesType = {
   common: [
     "flex",
     "justify-between",
@@ -17,6 +17,7 @@ const themes: Themes = {
     "font-medium",
     "text-left",
     "rounded-lg",
+    "items-center"
   ].join(" "),
   light: [
     "text-purple-900",
@@ -49,9 +50,9 @@ export const DisclosureButton = ({
       className={twMerge(themes.common, themes[theme], className)}
       ref={parent}
     >
-      <span>{children}</span>
-      {open && <BsChevronUp className="w-5 h-5" />}
-      {!open && <BsChevronDown className="w-5 h-5" />}
+      <span className="max-w-full overflow-hidden text-ellipsis">{children}</span>
+      {open && <BsChevronUp className="w-3 h-3 shrink-0" />}
+      {!open && <BsChevronDown className="w-3 h-3 shrink-0" />}
     </HeadlessDisclosure.Button>
   );
 };

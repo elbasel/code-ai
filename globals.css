@@ -9,3 +9,7 @@ body {
 .__json-pretty__ {
   @apply py-2 px-2;
 }
+
+* {
+  @apply scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-900 scrollbar-thumb-rounded-3xl
+}
