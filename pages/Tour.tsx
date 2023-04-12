@@ -25,7 +25,7 @@ const Tour = ({}: TourProps): React.ReactElement => {
       </div>
       <TourSection title="1. Scrape google results">
         <TourSubSection title="I. Scrape links on a webpage">
-          <span className="inline-block my-3 whitespace-break-spaces">
+          <span className="inline-block whitespace-break-spaces">
             Enter a url and see a list of the links on that website in the
             response below, check:
           </span>
@@ -59,7 +59,9 @@ const Tour = ({}: TourProps): React.ReactElement => {
           <ConvertToEmbeddings />
         </TourSubSection>
 
-        <TourSubSection title="II. Store the embeddings in the database"></TourSubSection>
+        <TourSubSection title="II. Store the embeddings in the database">
+          
+        </TourSubSection>
       </TourSection>
 
       <TourSection title="3. Handle User Input">

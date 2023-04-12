@@ -1,3 +1,4 @@
+// TODO: Use trpc project wide (goal, not really a todo)
 import { Button } from "@components/Button";
 import { TextInput } from "@components/Input/TextInput";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -15,7 +16,7 @@ export const AddToDatabase = ({}: AddToDatabaseProps): React.ReactElement => {
 
   // api state
   const [loading, setLoading] = useState(false);
-  const [responseJSON, setResponseObject] = useState<null | {}>(null);
+const [responseJSON, setResponseObject] = useState<null | {}>(null);
 
   const [parent] = useAutoAnimate({});
 
@@ -35,10 +36,10 @@ export const AddToDatabase = ({}: AddToDatabaseProps): React.ReactElement => {
       const data = await response.json();
 
       setResponseObject({
-        serverResponse: data,
+        ...data,
       });
     } catch (error: any) {
-      setResponseObject({ clientError: error });
+      setResponseObject({ ...error });
     }
     setLoading(false);
   };
@@ -57,6 +58,7 @@ export const AddToDatabase = ({}: AddToDatabaseProps): React.ReactElement => {
   };
 
   return (
+    // TODO make this a form, test submit button on android/ios keyboards
     <div ref={parent} className="space-y-4">
       <TextInput
         value={inputString}
