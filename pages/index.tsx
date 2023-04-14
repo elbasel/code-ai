@@ -1,12 +1,24 @@
 // TODO Add Tests...
 import { Theme } from "@components/Theme";
+import { Window } from "@components/Window";
+import { Canvas } from "@components/Canvas";
+import { Screen } from "@components/Screen";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <Theme>
-      <h1>Index</h1>
-      <Link className="hover:text-blue-500" href="/Tour">Take the tour</Link>
+      <Window>
+        <Canvas>
+          <Screen>
+            HomePage
+            <h1>Index</h1>
+            <Link className="hover:text-blue-500" href="/Tour">
+              Take the tour
+            </Link>
+          </Screen>
+        </Canvas>
+      </Window>
     </Theme>
   );
 }

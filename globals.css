@@ -3,13 +3,22 @@
 @tailwind utilities;
 
 body {
-  background-color: black;
+  @apply bg-black cursor-none overflow-hidden;
 }
 
+#__next {
+  @apply bg-slate-900 p-4;
+}
 .__json-pretty__ {
   @apply py-2 px-2;
 }
 
 * {
-  @apply scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-900 scrollbar-thumb-rounded-3xl
+  @apply scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-900 scrollbar-thumb-rounded-3xl;
+}
+
+@layer components {
+  .canvas > *:first-child {
+    @apply hover:!bg-black;
+  }
 }

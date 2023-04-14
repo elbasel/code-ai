@@ -23,6 +23,6 @@
       "@appTypes/*": ["types/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/FollowCursor"],
   "exclude": ["node_modules"]
 }
