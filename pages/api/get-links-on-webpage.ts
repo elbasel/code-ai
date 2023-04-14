@@ -1,3 +1,4 @@
+// TODO Let's add a check here to see if the body content of the crawled website's characters length is less than ~20 characters, and if so return an error saying that the site is not supported, and should use a puppeteer crawler instead. 
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as cheerio from "cheerio";
 
