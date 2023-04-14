@@ -5,5 +5,5 @@ type ScreenProps = {
 };
 
 export const Screen = ({ children }: ScreenProps): React.ReactElement => {
-  return <div className="w-screen min-h-screen screen">{children}</div>;
+  return <div className="p-2 min-h-screen-relaxed-relaxed screen">{children}</div>;
 };

@@ -11,8 +11,7 @@ export default function Home() {
       <Window>
         <Canvas>
           <Screen>
-            HomePage
-            <h1>Index</h1>
+            <h1>Code AI</h1>
             <Link className="hover:text-blue-500" href="/Tour">
               Take the tour
             </Link>

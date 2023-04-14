@@ -2,8 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    @apply text-3xl font-semibold;
+  }
+}
+
+/* @layer utilities {
+  .cursor-transparent {
+    @apply cursor-none;
+    cursor: url(https://img.freepik.com/premium-vector/vector-transparent-checkerboard-transparent-pattern-background_546559-436.jpg),
+      default;
+  }
+} */
+
 body {
-  @apply bg-black cursor-none overflow-hidden;
+  @apply bg-black overflow-hidden;
 }
 
 #__next {
@@ -14,11 +28,15 @@ body {
 }
 
 * {
-  @apply scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-900 scrollbar-thumb-rounded-3xl;
+  @apply cursor-none scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-900 scrollbar-thumb-rounded-3xl;
 }
 
-@layer components {
-  .canvas > *:first-child {
-    @apply hover:!bg-black;
-  }
+.min-h-screen-relaxed {
+  height: calc(100dvh - 32px);
+  margin-block: auto;
+}
+
+.min-w-screen-relaxed {
+  width: calc(100vw - 16px);
+  margin-inline: auto;
 }

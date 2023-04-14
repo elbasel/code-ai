@@ -6,7 +6,7 @@ type CanvasProps = {
 
 export const Canvas = ({ children }: CanvasProps): React.ReactElement => {
   return (
-    <div className="fixed inset-0 z-30 w-screen min-h-screen p-4 overflow-visible transform canvas scrollbar-hide min-w-max">
+    <div className="fixed inset-0 z-30 w-screen min-h-screen-relaxed p-4 overflow-visible transform canvas scrollbar-hide min-w-max">
       {children}
     </div>
   );

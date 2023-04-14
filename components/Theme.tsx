@@ -24,7 +24,7 @@ export const Theme = ({
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <main
         className={twMerge(
-          "min-h-screen px-4 py-2 rounded-lg bg-slate-950 text-white ",
+          "min-h-screen-relaxed px-4 py-2 rounded-lg bg-slate-950 text-white ",
           inter.className,
           className
         )}
