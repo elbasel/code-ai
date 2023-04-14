@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+// TODO Add Tests...
 import { Theme } from "@components/Theme";
 import Link from "next/link";
 
