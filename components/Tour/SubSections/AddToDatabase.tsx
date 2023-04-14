@@ -8,6 +8,9 @@ import JSONPretty from "react-json-pretty";
 type AddToDatabaseProps = {};
 
 export const AddToDatabase = ({}: AddToDatabaseProps): React.ReactElement => {
+  // Same as useRef()
+  const [parent] = useAutoAnimate({});
+
   // user inputs state
   const [inputString, setInputString] = useState("");
   const [isInputStringValid, setIsInputJSONStringValid] = useState(true);
@@ -16,9 +19,7 @@ export const AddToDatabase = ({}: AddToDatabaseProps): React.ReactElement => {
 
   // api state
   const [loading, setLoading] = useState(false);
-const [responseJSON, setResponseObject] = useState<null | {}>(null);
-
-  const [parent] = useAutoAnimate({});
+  const [responseJSON, setResponseObject] = useState<null | {}>(null);
 
   // event handlers
   const handleInputStringChange = (value: string) => {
