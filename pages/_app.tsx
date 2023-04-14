@@ -4,7 +4,7 @@ import { Provider as SupabaseProvider } from "react-supabase";
 import type { AppProps } from "next/app";
 import useIsClient from "@hooks/useClient";
 import { supabaseClient } from "@lib/supebase";
-import { SimpleFollow } from "@components/FollowCursor/SimpleFollow";
+import { SimpleFollow } from "@components/FollowCursor/FollowCursorContainer";
 
 export default function App({ Component, pageProps }: AppProps) {
   const isClient = useIsClient();
