@@ -32,7 +32,7 @@ export default async function handler(
 
     const parsedRequestUrlObject = new URL(parsedRequestUrl);
     const parsedRequestUrlPathName =
-      parsedRequestUrlObject.pathname.split("/")[1];
+      parsedRequestUrlObject.pathname.split("/").at(-1);
 
     const response = await fetch(parsedRequestUrl);
     const html = await response.text();
